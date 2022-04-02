@@ -19,6 +19,8 @@
     "baseUrl": ".",
     "paths": {
       "@entities/*": ["src/entities/*"],
+      "@use-cases/*": ["src/use-cases/*"],
+      "@test/*": ["test/*"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,
