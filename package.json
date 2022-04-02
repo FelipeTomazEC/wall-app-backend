@@ -5,7 +5,15 @@
   "main": "index.js",
   "author": "FelipeTomazEC",
   "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:unit": "jest unit"
+  },
   "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.4",
+    "tsconfig-paths-jest": "^0.0.1",
     "typescript": "^4.6.3"
   }
 }
