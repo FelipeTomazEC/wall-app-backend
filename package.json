@@ -1,0 +1,11 @@
+{
+  "name": "wall-app-backend",
+  "version": "1.0.0",
+  "description": "API for the wall app",
+  "main": "index.js",
+  "author": "FelipeTomazEC",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  }
+}
