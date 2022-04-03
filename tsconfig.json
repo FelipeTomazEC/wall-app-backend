@@ -21,7 +21,8 @@
       "@entities/*": ["src/entities/*"],
       "@use-cases/*": ["src/use-cases/*"],
       "@interface-adapters/*": ["src/interface-adapters/*"],
-      "@test/*": ["test/*"]
+      "@test/*": ["test/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,
