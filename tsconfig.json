@@ -20,6 +20,7 @@
     "paths": {
       "@entities/*": ["src/entities/*"],
       "@use-cases/*": ["src/use-cases/*"],
+      "@interface-adapters/*": ["src/interface-adapters/*"],
       "@test/*": ["test/*"]
     },
     "esModuleInterop": true,
