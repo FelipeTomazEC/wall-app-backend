@@ -34,5 +34,5 @@ export abstract class HttpController<T> {
 
   protected abstract extractParameters(httpRequest: HttpRequest): T;
 
-  protected abstract checkForMissingParams(request: T): Either<MissingRequiredFieldError, null>;
+  protected abstract checkForMissingParams(request: T): Either<MissingRequiredFieldError, void>;
 }
