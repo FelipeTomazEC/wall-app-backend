@@ -44,7 +44,6 @@ export class RegisterUserUseCase implements UseCaseInputPort<Request> {
 
     const welcomeEmail: SendEmailArgs = {
       content: getWelcomeEmailContent(name),
-      from: 'wallboard@gmail.com',
       subject: 'Welcome to the Wallboard community',
       to: email
     }
