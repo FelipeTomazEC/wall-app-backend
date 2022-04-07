@@ -26,7 +26,7 @@ export class RegisterUserUseCase implements UseCaseInputPort<Request> {
   async execute(request: Request): Promise<void> {
     const { repository, presenter, emailValidator } = this.dependencies;
     const { idGenerator, emailSender } = this.dependencies;
-    const { email, name } = request;
+    const { email, name, password } = request;
 
     const isEmailValid = emailValidator.isValid(email);
     if(!isEmailValid) {
@@ -39,7 +39,7 @@ export class RegisterUserUseCase implements UseCaseInputPort<Request> {
     }
 
     const id = await idGenerator.generate();
-    const user = new User({ email, name, id });
+    const user = new User({ email, name, id, password });
     await repository.save(user);
 
     const welcomeEmail: SendEmailArgs = {

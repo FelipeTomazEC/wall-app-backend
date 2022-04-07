@@ -5,11 +5,11 @@ import { SaveRepository } from "@use-cases/interfaces/repository";
 import { User } from "@entities/user";
 import { EmailSender } from "@use-cases/register-user/dependencies/email-sender.interface";
 import { IdGenerator } from "@use-cases/register-user/dependencies/id-generator.interface";
-import faker from 'faker';
 import { EmailValidator } from "@use-cases/register-user/dependencies/email-validator.interface";
 import { EmailExistsRepository } from "@use-cases/register-user/dependencies/email-exists-repository.interface";
 import { InvalidEmailError } from "@use-cases/register-user/errors/invalid-email-error";
 import { EmailAlreadyRegisteredError } from "@use-cases/register-user/errors/email-already-registered-error";
+import faker from 'faker';
 
 describe('Register user use case unit tests', () => {
   const presenter = getMock<UseCaseOutputPort<any>>(['failure', 'success']);
@@ -36,7 +36,8 @@ describe('Register user use case unit tests', () => {
     jest.spyOn(emailValidator, 'isValid').mockReturnValueOnce(false);
     const email = 'not..email.com';
     const name = faker.name.findName();
-    await sut.execute({ email, name });
+    const password = faker.internet.password();
+    await sut.execute({ email, name, password });
     expect(presenter.failure).toBeCalledWith(new InvalidEmailError(email));
   });
 
@@ -44,22 +45,25 @@ describe('Register user use case unit tests', () => {
     jest.spyOn(repository, 'emailExists').mockResolvedValueOnce(true);
     const email = faker.internet.email();
     const name = faker.name.findName();
-    await sut.execute({ email, name });
+    const password = faker.internet.password();
+    await sut.execute({ email, name, password });
     expect(presenter.failure).toBeCalledWith(new EmailAlreadyRegisteredError(email));
   });
 
   it('should save the user in the repository and send a welcome e-mail.', async () => {
     const email = faker.internet.email();
     const name = faker.name.findName();
-    await sut.execute({ email, name });
+    const password = faker.internet.password();
+    await sut.execute({ email, name, password });
     expect(emailSender.sendEmail).toBeCalledTimes(1);
     expect(idGenerator.generate).toBeCalledTimes(1);
   });
 
   it(`should send the new user's id to the presenter.`, async () => {
-    const name = 'Felipe';
-    const email = 'felipe@email.com';
-    await sut.execute({ email, name });
+    const name = faker.name.findName();
+    const email = faker.internet.email();
+    const password = faker.internet.password();
+    await sut.execute({ email, name, password });
     expect(presenter.success).toBeCalledWith({ id });
   });
 })

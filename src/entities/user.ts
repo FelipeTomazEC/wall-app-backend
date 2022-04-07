@@ -2,6 +2,7 @@ interface Props {
   id: string;
   name: string;
   email: string;
+  password: string;
 }
 
 export class User {
@@ -17,5 +18,9 @@ export class User {
 
   get email(): string {
     return this.props.email;
+  }
+
+  get password(): string {
+    return this.props.password;
   }
 }
