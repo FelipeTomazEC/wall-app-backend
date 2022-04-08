@@ -9,6 +9,7 @@ import { EmailValidator } from "@use-cases/register-user/dependencies/email-vali
 import { EmailExistsRepository } from "@use-cases/register-user/dependencies/email-exists-repository.interface";
 import { InvalidEmailError } from "@use-cases/register-user/errors/invalid-email-error";
 import { EmailAlreadyRegisteredError } from "@use-cases/register-user/errors/email-already-registered-error";
+import { PasswordEncrypter } from "@use-cases/interfaces/password-encrypter.interface";
 import faker from 'faker';
 
 describe('Register user use case unit tests', () => {
@@ -17,13 +18,15 @@ describe('Register user use case unit tests', () => {
   const emailSender = getMock<EmailSender>(['sendEmail']);
   const emailValidator = getMock<EmailValidator>(['isValid']);
   const idGenerator = getMock<IdGenerator>(['generate']);
+  const encrypter = getMock<PasswordEncrypter>(['encrypt']);
   const id = faker.datatype.uuid();
   const sut = new RegisterUserUseCase({ 
     presenter, 
     repository, 
     emailSender, 
     idGenerator, 
-    emailValidator 
+    emailValidator,
+    encrypter
   });
 
   beforeAll(() => {
@@ -65,5 +68,21 @@ describe('Register user use case unit tests', () => {
     const password = faker.internet.password();
     await sut.execute({ email, name, password });
     expect(presenter.success).toBeCalledWith({ id });
+  });
+
+  it('should encrypt the password before saving the user in the repo.', async () => {
+    const encryptedPassword = faker.git.commitSha();
+    jest.spyOn(encrypter, 'encrypt').mockResolvedValueOnce(encryptedPassword);
+    const name = faker.name.findName();
+    const email = faker.internet.email();
+    const password = faker.internet.password();
+    await sut.execute({ email, name, password });
+
+    expect(repository.save).toBeCalledWith(new User({
+      email,
+      name,
+      password: encryptedPassword,
+      id
+    }));
   });
 })
