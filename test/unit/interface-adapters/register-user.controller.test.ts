@@ -16,7 +16,10 @@ describe('Register user http controller tests', () => {
 
   it('should verify if the name is missing.', async () => {
     const request = new HttpRequest({
-      body: { email: faker.internet.email() },
+      body: { 
+        email: faker.internet.email(),
+        password: faker.internet.password() 
+      },
     });
     await sut.handle(request);
     expect(presenter.failure).toBeCalledWith(new MissingRequiredFieldError('name'));
@@ -24,18 +27,33 @@ describe('Register user http controller tests', () => {
 
   it('should verify if the email is missing.', async () => {
     const request = new HttpRequest({
-      body: { name: faker.name.findName() },
+      body: { 
+        name: faker.name.findName(),
+        password: faker.internet.password()
+      },
     });
     await sut.handle(request);
     expect(presenter.failure).toBeCalledWith(new MissingRequiredFieldError('email'));
   });
 
-  it('should pass the name and the email to the use case.', async () => {
+  it('should verify if the password is missing.', async () => {
+    const request = new HttpRequest({
+      body: { 
+        name: faker.name.findName(),
+        email: faker.internet.email(),
+      },
+    });
+    await sut.handle(request);
+    expect(presenter.failure).toBeCalledWith(new MissingRequiredFieldError('password'));
+  });
+
+  it('should pass the name, email and password to the use case.', async () => {
     const name = faker.name.findName();
     const email = faker.internet.email();
-    const request = new HttpRequest({ body: { name, email }});
+    const password = faker.internet.password();
+    const request = new HttpRequest({ body: { name, email, password }});
     await sut.handle(request);
-    expect(useCase.execute).toBeCalledWith({ name, email });
+    expect(useCase.execute).toBeCalledWith({ name, email, password });
   });
 
   it('should log if any error occurs.', async () => {
@@ -44,7 +62,8 @@ describe('Register user http controller tests', () => {
     const request = new HttpRequest({
       body: {
         name: faker.name.findName(),
-        email: faker.internet.email()
+        email: faker.internet.email(),
+        password: faker.internet.password()
       }
     });
     await sut.handle(request);
