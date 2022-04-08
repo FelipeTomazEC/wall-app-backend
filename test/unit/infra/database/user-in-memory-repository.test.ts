@@ -14,7 +14,8 @@ describe('User in memory repository tests', () => {
     const user = new User({
       email: faker.internet.email(),
       id: faker.datatype.uuid(),
-      name: faker.name.findName()
+      name: faker.name.findName(),
+      password: faker.internet.password()
     });
 
     const existsBeforeSaving = await sut.emailExists(user.email);
