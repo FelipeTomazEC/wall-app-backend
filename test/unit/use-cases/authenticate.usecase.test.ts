@@ -4,6 +4,7 @@ import { AuthenticateUseCase } from "@use-cases/authenticate";
 import { AuthenticationService } from "@use-cases/authenticate/dependencies/authentication-service.interface";
 import { GetByEmailRepository } from "@use-cases/authenticate/dependencies/get-by-email-repository.interface";
 import { AuthenticationError } from "@use-cases/authenticate/errors/wrong-email-or-password-error";
+import { PasswordEncrypter } from "@use-cases/interfaces/password-encrypter.interface";
 import { UseCaseOutputPort } from "@use-cases/interfaces/use-case-output-port";
 import faker from 'faker';
 
@@ -11,7 +12,8 @@ describe('Authenticate use case tests.', () => {
   const authService = getMock<AuthenticationService>(['generateTokenFor']);
   const repository = getMock<GetByEmailRepository>(['getByEmail']);
   const presenter = getMock<UseCaseOutputPort<any>>(['failure', 'success']);
-  const sut = new AuthenticateUseCase({ authService, repository, presenter });
+  const encrypter = getMock<PasswordEncrypter>(['verify']);
+  const sut = new AuthenticateUseCase({ authService, repository, presenter, encrypter });
   let user: User;
   
   beforeAll(() => {
@@ -22,7 +24,8 @@ describe('Authenticate use case tests.', () => {
       password: faker.internet.password()
     });
     jest.spyOn(repository, 'getByEmail').mockResolvedValue(user);
-  })
+    jest.spyOn(encrypter, 'verify').mockResolvedValue(true);
+  });
 
   it('should return authentication error if the e-mail is not found.', async () => {
     jest.spyOn(repository, 'getByEmail').mockResolvedValueOnce(null);
@@ -34,6 +37,7 @@ describe('Authenticate use case tests.', () => {
   });
 
   it('should return authentication error if the password is wrong.', async () => {
+    jest.spyOn(encrypter, 'verify').mockResolvedValueOnce(false);
     await sut.execute({
       email: user.email,
       password: faker.internet.password()
