@@ -6,6 +6,7 @@ import { EmailExistsRepository } from "./dependencies/email-exists-repository.in
 import { EmailSender, SendEmailArgs } from "./dependencies/email-sender.interface";
 import { EmailValidator } from "./dependencies/email-validator.interface";
 import { IdGenerator } from "./dependencies/id-generator.interface";
+import { PasswordEncrypter } from "../interfaces/password-encrypter.interface";
 import { RegisterUserRequest as Request } from "./dtos/request";
 import { RegisterUserResponse as Response } from "./dtos/response";
 import { EmailAlreadyRegisteredError } from "./errors/email-already-registered-error";
@@ -18,6 +19,7 @@ type Dependencies = {
   emailSender: EmailSender;
   emailValidator: EmailValidator;
   idGenerator: IdGenerator;
+  encrypter: PasswordEncrypter;
 }
 
 export class RegisterUserUseCase implements UseCaseInputPort<Request> {
@@ -25,8 +27,8 @@ export class RegisterUserUseCase implements UseCaseInputPort<Request> {
 
   async execute(request: Request): Promise<void> {
     const { repository, presenter, emailValidator } = this.dependencies;
-    const { idGenerator, emailSender } = this.dependencies;
-    const { email, name, password } = request;
+    const { idGenerator, emailSender, encrypter } = this.dependencies;
+    const { email, name } = request;
 
     const isEmailValid = emailValidator.isValid(email);
     if(!isEmailValid) {
@@ -38,6 +40,7 @@ export class RegisterUserUseCase implements UseCaseInputPort<Request> {
       return presenter.failure(new EmailAlreadyRegisteredError(email));
     }
 
+    const password = await encrypter.encrypt(request.password);
     const id = await idGenerator.generate();
     const user = new User({ email, name, id, password });
     await repository.save(user);

@@ -1,6 +1,7 @@
 import { User } from '@entities/user';
 import { ErrorLogger } from '@interface-adapters/interfaces/logger';
 import { RegisterUserController } from '@interface-adapters/register-user/register-user.controller';
+import { PasswordEncrypter } from '@use-cases/interfaces/password-encrypter.interface';
 import { SaveRepository } from '@use-cases/interfaces/repository';
 import { RegisterUserUseCase } from '@use-cases/register-user';
 import { EmailExistsRepository } from '@use-cases/register-user/dependencies/email-exists-repository.interface';
@@ -17,18 +18,20 @@ interface Dependencies {
   emailSender: EmailSender;
   idGenerator: IdGenerator;
   emailValidator: EmailValidator;
+  encrypter: PasswordEncrypter;
 }
 
 export const registerUserHandler = (dependencies: Dependencies) => (req: Request, res: Response) => {
   const { logger, repository, emailSender, emailValidator } = dependencies;
-  const { idGenerator } = dependencies;
+  const { idGenerator, encrypter } = dependencies;
   const presenter = new RegisterUserPresenter(res);
   const useCase = new RegisterUserUseCase({ 
     emailSender, 
     idGenerator, 
     emailValidator, 
     presenter, 
-    repository 
+    repository,
+    encrypter
   });
   const controller = new RegisterUserController({ logger, useCase, presenter });
   controller.handle(parseToHttpRequest(req));
