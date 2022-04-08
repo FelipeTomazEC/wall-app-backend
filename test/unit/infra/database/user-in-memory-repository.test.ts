@@ -25,4 +25,16 @@ describe('User in memory repository tests', () => {
     expect(existsBeforeSaving).toBeFalsy();
     expect(existsAfterSaving).toBeTruthy();
   });
+
+  it('should be able to get the user by email', async () => {
+    const user = new User({
+      email: faker.internet.email(),
+      id: faker.datatype.uuid(),
+      name: faker.name.findName(),
+      password: faker.internet.password()
+    });
+    await sut.save(user);
+    const retrieved = await sut.getByEmail(user.email);
+    expect(user).toEqual(retrieved);
+  });
 })
