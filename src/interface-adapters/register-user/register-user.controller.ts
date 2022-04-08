@@ -7,12 +7,12 @@ import { isEmptyString } from "@utils/is-empty-string";
 
 export class RegisterUserController extends HttpController<RegisterUserRequest> {
   protected extractParameters(httpRequest: HttpRequest): RegisterUserRequest {
-    const { name, email } = httpRequest.body;
-    return { name, email }; 
+    const { name, email, password } = httpRequest.body;
+    return { name, email, password }; 
   }
 
   protected checkForMissingParams(request: RegisterUserRequest): Either<MissingRequiredFieldError, void> {
-    const { name, email } = request;
+    const { name, email, password } = request;
     const isNameMissing = isEmptyString(name);
     if(isNameMissing) {
       return failure(new MissingRequiredFieldError('name'));
@@ -21,6 +21,11 @@ export class RegisterUserController extends HttpController<RegisterUserRequest> 
     const isEmailMissing = isEmptyString(email);
     if(isEmailMissing) {
       return failure(new MissingRequiredFieldError('email'));
+    }
+
+    const isPasswordMissing = isEmptyString(password);
+    if(isPasswordMissing) {
+      return failure(new MissingRequiredFieldError('password'));
     }
 
     return success(undefined);
