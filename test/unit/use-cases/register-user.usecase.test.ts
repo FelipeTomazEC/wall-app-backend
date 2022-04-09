@@ -4,13 +4,13 @@ import { UseCaseOutputPort } from "@use-cases/interfaces/use-case-output-port";
 import { SaveRepository } from "@use-cases/interfaces/repository";
 import { User } from "@entities/user";
 import { EmailSender } from "@use-cases/register-user/dependencies/email-sender.interface";
-import { IdGenerator } from "@use-cases/register-user/dependencies/id-generator.interface";
 import { EmailValidator } from "@use-cases/register-user/dependencies/email-validator.interface";
 import { EmailExistsRepository } from "@use-cases/register-user/dependencies/email-exists-repository.interface";
 import { InvalidEmailError } from "@use-cases/register-user/errors/invalid-email-error";
 import { EmailAlreadyRegisteredError } from "@use-cases/register-user/errors/email-already-registered-error";
 import { PasswordEncrypter } from "@use-cases/interfaces/password-encrypter.interface";
 import faker from 'faker';
+import { IdGenerator } from "@use-cases/interfaces/id-generator.interface";
 
 describe('Register user use case unit tests', () => {
   const presenter = getMock<UseCaseOutputPort<any>>(['failure', 'success']);

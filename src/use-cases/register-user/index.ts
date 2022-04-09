@@ -5,7 +5,7 @@ import { UseCaseOutputPort } from "../interfaces/use-case-output-port";
 import { EmailExistsRepository } from "./dependencies/email-exists-repository.interface";
 import { EmailSender, SendEmailArgs } from "./dependencies/email-sender.interface";
 import { EmailValidator } from "./dependencies/email-validator.interface";
-import { IdGenerator } from "./dependencies/id-generator.interface";
+import { IdGenerator } from "../interfaces/id-generator.interface";
 import { PasswordEncrypter } from "../interfaces/password-encrypter.interface";
 import { RegisterUserRequest as Request } from "./dtos/request";
 import { RegisterUserResponse as Response } from "./dtos/response";
