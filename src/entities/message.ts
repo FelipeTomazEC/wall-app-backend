@@ -24,4 +24,8 @@ export class Message {
   get text(): string {
     return this.props.text;
   }
+
+  get username(): string {
+    return this.props.username;
+  }
 }
