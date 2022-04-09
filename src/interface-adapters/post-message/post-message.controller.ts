@@ -7,7 +7,7 @@ import { isEmptyString } from "@utils/is-empty-string";
 
 export class PostMessageController extends HttpController<PostMessageRequest> {
   protected extractParameters(httpRequest: HttpRequest): PostMessageRequest {
-    const authHeader = httpRequest.getHeader<string>('Authorization') ?? '';
+    const authHeader = httpRequest.getHeader<string>('authorization') ?? '';
     const token = authHeader.replace('Bearer ', '');
     const text = httpRequest.body.message;
     return { token, text };

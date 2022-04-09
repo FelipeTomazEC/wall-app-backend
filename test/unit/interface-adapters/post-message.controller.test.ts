@@ -30,7 +30,7 @@ describe('Post message http controller tests', () => {
     const token = faker.git.commitSha();
     const message = faker.random.words();
     const request = new HttpRequest({
-      headers: [{ name: 'Authorization', value: `Bearer ${token}`}],
+      headers: [{ name: 'authorization', value: `Bearer ${token}`}],
       body: { message }
     });
     await sut.handle(request);
