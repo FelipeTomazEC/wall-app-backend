@@ -37,4 +37,16 @@ describe('User in memory repository tests', () => {
     const retrieved = await sut.getByEmail(user.email);
     expect(user).toEqual(retrieved);
   });
+
+  it('should be able to get the user by id', async () => {
+    const user = new User({
+      email: faker.internet.email(),
+      id: faker.datatype.uuid(),
+      name: faker.name.findName(),
+      password: faker.internet.password()
+    });
+    await sut.save(user);
+    const retrieved = await sut.getById(user.id);
+    expect(user).toEqual(retrieved);
+  });
 })
