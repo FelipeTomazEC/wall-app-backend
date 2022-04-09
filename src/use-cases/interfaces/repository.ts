@@ -5,3 +5,7 @@ export interface SaveRepository<T> {
 export interface GetByIdRepository<T> {
   getById(id: string): Promise<T | null>;
 }
+
+export interface GetAllRepository<T> {
+  getAll(): Promise<T[]>;
+}
