@@ -1,6 +1,6 @@
 import { User } from "@entities/user";
 import { GetByEmailRepository } from "@use-cases/authenticate/dependencies/get-by-email-repository.interface";
-import { GetByIdRepository, SaveRepository, } from '@use-cases/interfaces/repository';
+import { GetByIdRepository, SaveRepository } from '@use-cases/interfaces/repository';
 import { EmailExistsRepository } from "@use-cases/register-user/dependencies/email-exists-repository.interface";
 
 export class UserInMemoryRepository 
