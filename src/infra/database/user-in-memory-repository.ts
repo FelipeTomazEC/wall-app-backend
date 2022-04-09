@@ -1,9 +1,10 @@
 import { User } from "@entities/user";
 import { GetByEmailRepository } from "@use-cases/authenticate/dependencies/get-by-email-repository.interface";
-import { SaveRepository, } from '@use-cases/interfaces/repository';
+import { GetByIdRepository, SaveRepository, } from '@use-cases/interfaces/repository';
 import { EmailExistsRepository } from "@use-cases/register-user/dependencies/email-exists-repository.interface";
 
-export class UserInMemoryRepository implements SaveRepository<User>, EmailExistsRepository, GetByEmailRepository {
+export class UserInMemoryRepository 
+  implements SaveRepository<User>, EmailExistsRepository, GetByEmailRepository, GetByIdRepository<User> {
   private static instance: UserInMemoryRepository | null = null;
 
   private readonly users: User[];
@@ -31,5 +32,9 @@ export class UserInMemoryRepository implements SaveRepository<User>, EmailExists
 
   async getByEmail(email: string): Promise<User | null> {
     return this.users.find((user) => user.email === email) ?? null;
+  }
+
+  async getById(id: string): Promise<User | null> {
+    return this.users.find((user) => user.id === id) ?? null;
   }
 }
