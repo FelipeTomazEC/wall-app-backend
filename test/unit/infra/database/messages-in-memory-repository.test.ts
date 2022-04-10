@@ -21,4 +21,20 @@ describe('Messages in memory tests', () => {
 
     await expect(sut.save(message)).resolves.not.toBeDefined();
   });
+
+  it('should retrieve all messages', async () => {
+    const messages = new Array(5).fill(1).map(() => new Message({
+      id: faker.datatype.uuid(),
+      postedAt: new Date(Date.now()),
+      text: faker.random.words(),
+      userId: faker.datatype.uuid(),
+      username: faker.name.findName()
+    }));
+
+    await Promise.all(messages.map((m) => sut.save(m)));
+
+    const retrieved = await sut.getAll();
+    const isAllMessagesInRetrievedResponse = messages.every(m => retrieved.some(item => item.id === m.id));
+    expect(isAllMessagesInRetrievedResponse).toBeTruthy();
+  });
 });
