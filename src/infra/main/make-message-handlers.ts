@@ -5,6 +5,7 @@ import { UUIDv4IdGenerator } from "@infra/implementations/uuid-v4-id-generator";
 import { ConsoleErrorLogger } from "@infra/implementations/console-error-logger";
 import { MessagesInMemoryRepository } from "@infra/database/messages-in-memory-repository";
 import { UserInMemoryRepository } from "@infra/database/user-in-memory-repository";
+import { retrieveMessagesHandler } from "@infra/express/handlers/retrieve-messages.handler";
 
 
 export const makeMessageHandlers = (): MessageHandlers => {
@@ -22,5 +23,10 @@ export const makeMessageHandlers = (): MessageHandlers => {
     usersRepo
   });
 
-  return { postMessage };
+  const getAll = retrieveMessagesHandler({
+    logger,
+    messagesRepo
+  })
+
+  return { postMessage, getAll };
 }
