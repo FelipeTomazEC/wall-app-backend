@@ -1,7 +1,8 @@
 import { Message } from "@entities/message";
-import { SaveRepository } from "@use-cases/interfaces/repository";
+import { GetAllRepository, SaveRepository } from "@use-cases/interfaces/repository";
 
-export class MessagesInMemoryRepository implements SaveRepository<Message> {
+export class MessagesInMemoryRepository
+  implements SaveRepository<Message>, GetAllRepository<Message> {
   private static instance: MessagesInMemoryRepository | null = null;
 
   private readonly messages: Message[];
@@ -11,14 +12,18 @@ export class MessagesInMemoryRepository implements SaveRepository<Message> {
   }
 
   static getInstance(): MessagesInMemoryRepository {
-    if(!this.instance) {
+    if (!this.instance) {
       this.instance = new MessagesInMemoryRepository();
     }
 
     return this.instance;
-  } 
+  }
 
   async save(message: Message): Promise<void> {
     this.messages.push(message);
+  }
+
+  async getAll(): Promise<Message[]> {
+    return [...this.messages];
   }
 }
