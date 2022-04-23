@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  database:
+    container_name: wall-app-database-container
+    image: postgres
+    ports:
+      - ${DATABASE_PORT:-5432}:5432
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
