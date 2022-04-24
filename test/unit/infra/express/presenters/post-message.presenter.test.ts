@@ -18,9 +18,9 @@ describe('Post message presenter tests', () => {
     expect(expressResponse.status).toBeCalledWith(HttpStatusCode.FORBIDDEN);
     expect(expressResponse.json).toBeCalledWith({
       error: {
-        message: error.message
-      }
-    })
+        message: error.message,
+      },
+    });
   });
 
   it('should map a missing param error to a bad request', () => {
@@ -29,17 +29,19 @@ describe('Post message presenter tests', () => {
     expect(expressResponse.status).toBeCalledWith(HttpStatusCode.BAD_REQUEST);
     expect(expressResponse.json).toBeCalledWith({
       error: {
-        message: error.message
-      }
-    })
+        message: error.message,
+      },
+    });
   });
 
   it('should map a success call to http status 201(Resource created)', () => {
     const response: PostMessageResponse = {
-      id: faker.datatype.uuid()
-    }
+      id: faker.datatype.uuid(),
+    };
     sut.success(response);
-    expect(expressResponse.status).toBeCalledWith(HttpStatusCode.RESOURCE_CREATED);
+    expect(expressResponse.status).toBeCalledWith(
+      HttpStatusCode.RESOURCE_CREATED,
+    );
     expect(expressResponse.json).toBeCalledWith(response);
   });
 
@@ -49,8 +51,8 @@ describe('Post message presenter tests', () => {
     expect(expressResponse.status).toBeCalledWith(HttpStatusCode.SERVER_ERROR);
     expect(expressResponse.json).toBeCalledWith({
       error: {
-        message: error.message
-      }
+        message: error.message,
+      },
     });
   });
-})
+});

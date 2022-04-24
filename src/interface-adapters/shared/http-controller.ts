@@ -1,16 +1,16 @@
-import { ErrorLogger } from "@interface-adapters/interfaces/logger"
-import { UseCaseInputPort } from "@use-cases/interfaces/use-case-input-port";
-import { UseCaseOutputPort } from "@use-cases/interfaces/use-case-output-port";
-import { MissingRequiredFieldError } from "@interface-adapters/shared/errors/missing-required-field-error";
-import { Either } from "@utils/either";
-import { HttpRequest } from "./http-request";
-import { InternalServerError } from "./errors/internal-server-error";
+import { ErrorLogger } from '@interface-adapters/interfaces/logger';
+import { UseCaseInputPort } from '@use-cases/interfaces/use-case-input-port';
+import { UseCaseOutputPort } from '@use-cases/interfaces/use-case-output-port';
+import { MissingRequiredFieldError } from '@interface-adapters/shared/errors/missing-required-field-error';
+import { Either } from '@utils/either';
+import { HttpRequest } from './http-request';
+import { InternalServerError } from './errors/internal-server-error';
 
 type Dependencies<T> = {
   logger: ErrorLogger;
   useCase: UseCaseInputPort<T>;
   presenter: UseCaseOutputPort<any>;
-}
+};
 
 export abstract class HttpController<T> {
   constructor(private readonly dependencies: Dependencies<T>) {}
@@ -20,12 +20,12 @@ export abstract class HttpController<T> {
     try {
       const useCaseRequest = this.extractParameters(httpRequest);
       const isSomeParamMissing = this.checkForMissingParams(useCaseRequest);
-      if(isSomeParamMissing.isFailure()) {
-        return presenter.failure(isSomeParamMissing.value);
+      if (isSomeParamMissing.isFailure()) {
+        return await presenter.failure(isSomeParamMissing.value);
       }
 
       await useCase.execute(useCaseRequest);
-    }catch(err) {
+    } catch (err) {
       const error = err as Error;
       await logger.log(error);
       return presenter.failure(new InternalServerError());
@@ -34,5 +34,7 @@ export abstract class HttpController<T> {
 
   protected abstract extractParameters(httpRequest: HttpRequest): T;
 
-  protected abstract checkForMissingParams(request: T): Either<MissingRequiredFieldError, void>;
+  protected abstract checkForMissingParams(
+    request: T,
+  ): Either<MissingRequiredFieldError, void>;
 }

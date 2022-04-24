@@ -1,4 +1,4 @@
-import { ErrorLogger } from "@interface-adapters/interfaces/logger";
+import { ErrorLogger } from '@interface-adapters/interfaces/logger';
 
 export class ConsoleErrorLogger implements ErrorLogger {
   async log(error: Error): Promise<void> {

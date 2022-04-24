@@ -1,8 +1,8 @@
-import { HttpStatusCode } from "@interface-adapters/shared/http-status-code";
-import { UseCaseOutputPort } from "@use-cases/interfaces/use-case-output-port";
-import { RegisterUserResponse as Response } from "@use-cases/register-user/dtos/response";
-import { EmailAlreadyRegisteredError } from "@use-cases/register-user/errors/email-already-registered-error";
-import { InvalidEmailError } from "@use-cases/register-user/errors/invalid-email-error";
+import { HttpStatusCode } from '@interface-adapters/shared/http-status-code';
+import { UseCaseOutputPort } from '@use-cases/interfaces/use-case-output-port';
+import { RegisterUserResponse as Response } from '@use-cases/register-user/dtos/response';
+import { EmailAlreadyRegisteredError } from '@use-cases/register-user/errors/email-already-registered-error';
+import { InvalidEmailError } from '@use-cases/register-user/errors/invalid-email-error';
 import { Response as ExpressResponse } from 'express';
 
 export class RegisterUserPresenter implements UseCaseOutputPort<Response> {
@@ -14,11 +14,12 @@ export class RegisterUserPresenter implements UseCaseOutputPort<Response> {
       [InvalidEmailError.name, HttpStatusCode.BAD_REQUEST],
     ]);
 
-    const statusCode = errorMap.get(error.constructor.name) ?? HttpStatusCode.SERVER_ERROR;
+    const statusCode =
+      errorMap.get(error.constructor.name) ?? HttpStatusCode.SERVER_ERROR;
     this.response.status(statusCode).json({
       error: {
-        message: error.message
-      }
+        message: error.message,
+      },
     });
   }
 

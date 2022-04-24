@@ -1,32 +1,35 @@
-import { RegisterUserUseCase } from "@use-cases/register-user";
-import { getMock } from "@test/test-utils/get-mock";
-import { UseCaseOutputPort } from "@use-cases/interfaces/use-case-output-port";
-import { SaveRepository } from "@use-cases/interfaces/repository";
-import { User } from "@entities/user";
-import { EmailSender } from "@use-cases/register-user/dependencies/email-sender.interface";
-import { EmailValidator } from "@use-cases/register-user/dependencies/email-validator.interface";
-import { EmailExistsRepository } from "@use-cases/register-user/dependencies/email-exists-repository.interface";
-import { InvalidEmailError } from "@use-cases/register-user/errors/invalid-email-error";
-import { EmailAlreadyRegisteredError } from "@use-cases/register-user/errors/email-already-registered-error";
-import { PasswordEncrypter } from "@use-cases/interfaces/password-encrypter.interface";
+import { RegisterUserUseCase } from '@use-cases/register-user';
+import { getMock } from '@test/test-utils/get-mock';
+import { UseCaseOutputPort } from '@use-cases/interfaces/use-case-output-port';
+import { SaveRepository } from '@use-cases/interfaces/repository';
+import { User } from '@entities/user';
+import { EmailSender } from '@use-cases/register-user/dependencies/email-sender.interface';
+import { EmailValidator } from '@use-cases/register-user/dependencies/email-validator.interface';
+import { EmailExistsRepository } from '@use-cases/register-user/dependencies/email-exists-repository.interface';
+import { InvalidEmailError } from '@use-cases/register-user/errors/invalid-email-error';
+import { EmailAlreadyRegisteredError } from '@use-cases/register-user/errors/email-already-registered-error';
+import { PasswordEncrypter } from '@use-cases/interfaces/password-encrypter.interface';
 import faker from 'faker';
-import { IdGenerator } from "@use-cases/interfaces/id-generator.interface";
+import { IdGenerator } from '@use-cases/interfaces/id-generator.interface';
 
 describe('Register user use case unit tests', () => {
   const presenter = getMock<UseCaseOutputPort<any>>(['failure', 'success']);
-  const repository = getMock<SaveRepository<User> & EmailExistsRepository>(['save', 'emailExists']);
+  const repository = getMock<SaveRepository<User> & EmailExistsRepository>([
+    'save',
+    'emailExists',
+  ]);
   const emailSender = getMock<EmailSender>(['sendEmail']);
   const emailValidator = getMock<EmailValidator>(['isValid']);
   const idGenerator = getMock<IdGenerator>(['generate']);
   const encrypter = getMock<PasswordEncrypter>(['encrypt']);
   const id = faker.datatype.uuid();
-  const sut = new RegisterUserUseCase({ 
-    presenter, 
-    repository, 
-    emailSender, 
-    idGenerator, 
+  const sut = new RegisterUserUseCase({
+    presenter,
+    repository,
+    emailSender,
+    idGenerator,
     emailValidator,
-    encrypter
+    encrypter,
   });
 
   beforeAll(() => {
@@ -50,7 +53,9 @@ describe('Register user use case unit tests', () => {
     const name = faker.name.findName();
     const password = faker.internet.password();
     await sut.execute({ email, name, password });
-    expect(presenter.failure).toBeCalledWith(new EmailAlreadyRegisteredError(email));
+    expect(presenter.failure).toBeCalledWith(
+      new EmailAlreadyRegisteredError(email),
+    );
   });
 
   it('should save the user in the repository and send a welcome e-mail.', async () => {
@@ -78,11 +83,13 @@ describe('Register user use case unit tests', () => {
     const password = faker.internet.password();
     await sut.execute({ email, name, password });
 
-    expect(repository.save).toBeCalledWith(new User({
-      email,
-      name,
-      password: encryptedPassword,
-      id
-    }));
+    expect(repository.save).toBeCalledWith(
+      new User({
+        email,
+        name,
+        password: encryptedPassword,
+        id,
+      }),
+    );
   });
-})
+});

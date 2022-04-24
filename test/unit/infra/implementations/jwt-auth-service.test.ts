@@ -1,7 +1,7 @@
-import { User } from "@entities/user";
-import { JWTAuthService } from "@infra/implementations/jwt-auth-service";
-import { AuthorizationError } from "@use-cases/post-message/errors/authorization-error";
-import faker from "faker";
+import { User } from '@entities/user';
+import { JWTAuthService } from '@infra/implementations/jwt-auth-service';
+import { AuthorizationError } from '@use-cases/post-message/errors/authorization-error';
+import faker from 'faker';
 
 describe('JWT auth service implementation tests', () => {
   const sut = new JWTAuthService();
@@ -10,7 +10,7 @@ describe('JWT auth service implementation tests', () => {
     email: faker.internet.email(),
     id: faker.datatype.uuid(),
     name: faker.name.findName(),
-    password: faker.internet.password()
+    password: faker.internet.password(),
   });
 
   beforeAll(() => {

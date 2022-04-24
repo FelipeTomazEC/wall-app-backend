@@ -1,5 +1,5 @@
-import { Either } from "@utils/either";
-import { AuthorizationError } from "../errors/authorization-error";
+import { Either } from '@utils/either';
+import { AuthorizationError } from '../errors/authorization-error';
 
 export type TokenOwnerID = string;
 

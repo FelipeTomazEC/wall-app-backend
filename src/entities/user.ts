@@ -6,7 +6,7 @@ interface Props {
 }
 
 export class User {
-  constructor(private readonly props: Props) { }
+  constructor(private readonly props: Props) {}
 
   get id(): string {
     return this.props.id;

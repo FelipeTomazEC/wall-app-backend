@@ -21,18 +21,23 @@ interface Dependencies {
   encrypter: PasswordEncrypter;
 }
 
-export const registerUserHandler = (dependencies: Dependencies) => (req: Request, res: Response) => {
-  const { logger, repository, emailSender, emailValidator } = dependencies;
-  const { idGenerator, encrypter } = dependencies;
-  const presenter = new RegisterUserPresenter(res);
-  const useCase = new RegisterUserUseCase({ 
-    emailSender, 
-    idGenerator, 
-    emailValidator, 
-    presenter, 
-    repository,
-    encrypter
-  });
-  const controller = new RegisterUserController({ logger, useCase, presenter });
-  controller.handle(parseToHttpRequest(req));
-}
+export const registerUserHandler =
+  (dependencies: Dependencies) => (req: Request, res: Response) => {
+    const { logger, repository, emailSender, emailValidator } = dependencies;
+    const { idGenerator, encrypter } = dependencies;
+    const presenter = new RegisterUserPresenter(res);
+    const useCase = new RegisterUserUseCase({
+      emailSender,
+      idGenerator,
+      emailValidator,
+      presenter,
+      repository,
+      encrypter,
+    });
+    const controller = new RegisterUserController({
+      logger,
+      useCase,
+      presenter,
+    });
+    controller.handle(parseToHttpRequest(req));
+  };

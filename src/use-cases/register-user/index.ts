@@ -1,17 +1,20 @@
-import { User } from "@entities/user";
-import { SaveRepository } from "@use-cases/interfaces/repository";
-import { UseCaseInputPort } from "../interfaces/use-case-input-port";
-import { UseCaseOutputPort } from "../interfaces/use-case-output-port";
-import { EmailExistsRepository } from "./dependencies/email-exists-repository.interface";
-import { EmailSender, SendEmailArgs } from "./dependencies/email-sender.interface";
-import { EmailValidator } from "./dependencies/email-validator.interface";
-import { IdGenerator } from "../interfaces/id-generator.interface";
-import { PasswordEncrypter } from "../interfaces/password-encrypter.interface";
-import { RegisterUserRequest as Request } from "./dtos/request";
-import { RegisterUserResponse as Response } from "./dtos/response";
-import { EmailAlreadyRegisteredError } from "./errors/email-already-registered-error";
-import { InvalidEmailError } from "./errors/invalid-email-error";
-import { getWelcomeEmailContent } from "./utils/get-welcome-email-content";
+import { User } from '@entities/user';
+import { SaveRepository } from '@use-cases/interfaces/repository';
+import { UseCaseInputPort } from '../interfaces/use-case-input-port';
+import { UseCaseOutputPort } from '../interfaces/use-case-output-port';
+import { EmailExistsRepository } from './dependencies/email-exists-repository.interface';
+import {
+  EmailSender,
+  SendEmailArgs,
+} from './dependencies/email-sender.interface';
+import { EmailValidator } from './dependencies/email-validator.interface';
+import { IdGenerator } from '../interfaces/id-generator.interface';
+import { PasswordEncrypter } from '../interfaces/password-encrypter.interface';
+import { RegisterUserRequest as Request } from './dtos/request';
+import { RegisterUserResponse as Response } from './dtos/response';
+import { EmailAlreadyRegisteredError } from './errors/email-already-registered-error';
+import { InvalidEmailError } from './errors/invalid-email-error';
+import { getWelcomeEmailContent } from './utils/get-welcome-email-content';
 
 type Dependencies = {
   presenter: UseCaseOutputPort<Response>;
@@ -20,7 +23,7 @@ type Dependencies = {
   emailValidator: EmailValidator;
   idGenerator: IdGenerator;
   encrypter: PasswordEncrypter;
-}
+};
 
 export class RegisterUserUseCase implements UseCaseInputPort<Request> {
   constructor(private readonly dependencies: Dependencies) {}
@@ -31,12 +34,12 @@ export class RegisterUserUseCase implements UseCaseInputPort<Request> {
     const { email, name } = request;
 
     const isEmailValid = emailValidator.isValid(email);
-    if(!isEmailValid) {
+    if (!isEmailValid) {
       return presenter.failure(new InvalidEmailError(email));
     }
 
     const isEmailAlreadyRegistered = await repository.emailExists(email);
-    if(isEmailAlreadyRegistered) {
+    if (isEmailAlreadyRegistered) {
       return presenter.failure(new EmailAlreadyRegisteredError(email));
     }
 
@@ -48,8 +51,8 @@ export class RegisterUserUseCase implements UseCaseInputPort<Request> {
     const welcomeEmail: SendEmailArgs = {
       content: getWelcomeEmailContent(name),
       subject: 'Welcome to the Wallboard community',
-      to: email
-    }
+      to: email,
+    };
 
     await emailSender.sendEmail(welcomeEmail);
 

@@ -1,6 +1,9 @@
-import { parseToHttpRequest } from "@infra/express/helpers/parse-http-request";
-import { getNullAsType, getUndefinedAsType } from "@test/test-utils/get-nullable-as-type";
-import { Request } from "express";
+import { parseToHttpRequest } from '@infra/express/helpers/parse-http-request';
+import {
+  getNullAsType,
+  getUndefinedAsType,
+} from '@test/test-utils/get-nullable-as-type';
+import { Request } from 'express';
 
 describe('Express http request parser tests', () => {
   it('should transform null/undefined headers into empty strings.', () => {
@@ -8,7 +11,7 @@ describe('Express http request parser tests', () => {
       headers: {
         header1: 'header-1-value',
         header2: getNullAsType<string>(),
-        header3: getUndefinedAsType<string>()
+        header3: getUndefinedAsType<string>(),
       },
       params: {},
       query: {},
@@ -25,7 +28,7 @@ describe('Express http request parser tests', () => {
       query: {
         param1: 'param-1-value',
         param2: getNullAsType<string>(),
-        param3: getUndefinedAsType<string>()
+        param3: getUndefinedAsType<string>(),
       },
       headers: {},
       params: {},
@@ -40,7 +43,7 @@ describe('Express http request parser tests', () => {
   it('should put the path params values into the http request.', () => {
     const expressRequest: Partial<Request> = {
       params: {
-        param1: 'param-1-value'
+        param1: 'param-1-value',
       },
       headers: {},
       query: {},
@@ -57,11 +60,11 @@ describe('Express http request parser tests', () => {
       params: {},
       body: {
         field1: 'field1',
-        field2: 'field2'
-      }
+        field2: 'field2',
+      },
     };
 
     const parsedRequest = parseToHttpRequest(expressRequest as Request);
     expect(parsedRequest.body).toBe(expressRequest.body);
   });
-})
+});

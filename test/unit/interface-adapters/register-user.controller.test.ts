@@ -1,11 +1,11 @@
-import { ErrorLogger } from "@interface-adapters/interfaces/logger";
-import { RegisterUserController } from "@interface-adapters/register-user/register-user.controller";
-import { InternalServerError } from "@interface-adapters/shared/errors/internal-server-error";
-import { MissingRequiredFieldError } from "@interface-adapters/shared/errors/missing-required-field-error";
-import { HttpRequest } from "@interface-adapters/shared/http-request";
-import { getMock } from "@test/test-utils/get-mock";
-import { UseCaseInputPort } from "@use-cases/interfaces/use-case-input-port";
-import { UseCaseOutputPort } from "@use-cases/interfaces/use-case-output-port";
+import { ErrorLogger } from '@interface-adapters/interfaces/logger';
+import { RegisterUserController } from '@interface-adapters/register-user/register-user.controller';
+import { InternalServerError } from '@interface-adapters/shared/errors/internal-server-error';
+import { MissingRequiredFieldError } from '@interface-adapters/shared/errors/missing-required-field-error';
+import { HttpRequest } from '@interface-adapters/shared/http-request';
+import { getMock } from '@test/test-utils/get-mock';
+import { UseCaseInputPort } from '@use-cases/interfaces/use-case-input-port';
+import { UseCaseOutputPort } from '@use-cases/interfaces/use-case-output-port';
 import faker from 'faker';
 
 describe('Register user http controller tests', () => {
@@ -16,42 +16,48 @@ describe('Register user http controller tests', () => {
 
   it('should verify if the name is missing.', async () => {
     const request = new HttpRequest({
-      body: { 
+      body: {
         email: faker.internet.email(),
-        password: faker.internet.password() 
+        password: faker.internet.password(),
       },
     });
     await sut.handle(request);
-    expect(presenter.failure).toBeCalledWith(new MissingRequiredFieldError('name'));
+    expect(presenter.failure).toBeCalledWith(
+      new MissingRequiredFieldError('name'),
+    );
   });
 
   it('should verify if the email is missing.', async () => {
     const request = new HttpRequest({
-      body: { 
+      body: {
         name: faker.name.findName(),
-        password: faker.internet.password()
+        password: faker.internet.password(),
       },
     });
     await sut.handle(request);
-    expect(presenter.failure).toBeCalledWith(new MissingRequiredFieldError('email'));
+    expect(presenter.failure).toBeCalledWith(
+      new MissingRequiredFieldError('email'),
+    );
   });
 
   it('should verify if the password is missing.', async () => {
     const request = new HttpRequest({
-      body: { 
+      body: {
         name: faker.name.findName(),
         email: faker.internet.email(),
       },
     });
     await sut.handle(request);
-    expect(presenter.failure).toBeCalledWith(new MissingRequiredFieldError('password'));
+    expect(presenter.failure).toBeCalledWith(
+      new MissingRequiredFieldError('password'),
+    );
   });
 
   it('should pass the name, email and password to the use case.', async () => {
     const name = faker.name.findName();
     const email = faker.internet.email();
     const password = faker.internet.password();
-    const request = new HttpRequest({ body: { name, email, password }});
+    const request = new HttpRequest({ body: { name, email, password } });
     await sut.handle(request);
     expect(useCase.execute).toBeCalledWith({ name, email, password });
   });
@@ -63,11 +69,11 @@ describe('Register user http controller tests', () => {
       body: {
         name: faker.name.findName(),
         email: faker.internet.email(),
-        password: faker.internet.password()
-      }
+        password: faker.internet.password(),
+      },
     });
     await sut.handle(request);
     expect(presenter.failure).toBeCalledWith(new InternalServerError());
     expect(logger.log).toBeCalledWith(error);
   });
-})
+});

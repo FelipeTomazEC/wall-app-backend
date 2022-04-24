@@ -1,5 +1,5 @@
-import { User } from "@entities/user";
-import { UserInMemoryRepository } from "@infra/database/in-memory/user-in-memory-repository";
+import { User } from '@entities/user';
+import { UserInMemoryRepository } from '@infra/database/in-memory/user-in-memory-repository';
 import faker from 'faker';
 
 describe('User in memory repository tests', () => {
@@ -15,13 +15,13 @@ describe('User in memory repository tests', () => {
       email: faker.internet.email(),
       id: faker.datatype.uuid(),
       name: faker.name.findName(),
-      password: faker.internet.password()
+      password: faker.internet.password(),
     });
 
     const existsBeforeSaving = await sut.emailExists(user.email);
     await sut.save(user);
     const existsAfterSaving = await sut.emailExists(user.email);
-    
+
     expect(existsBeforeSaving).toBeFalsy();
     expect(existsAfterSaving).toBeTruthy();
   });
@@ -31,7 +31,7 @@ describe('User in memory repository tests', () => {
       email: faker.internet.email(),
       id: faker.datatype.uuid(),
       name: faker.name.findName(),
-      password: faker.internet.password()
+      password: faker.internet.password(),
     });
     await sut.save(user);
     const retrieved = await sut.getByEmail(user.email);
@@ -43,10 +43,10 @@ describe('User in memory repository tests', () => {
       email: faker.internet.email(),
       id: faker.datatype.uuid(),
       name: faker.name.findName(),
-      password: faker.internet.password()
+      password: faker.internet.password(),
     });
     await sut.save(user);
     const retrieved = await sut.getById(user.id);
     expect(user).toEqual(retrieved);
   });
-})
+});

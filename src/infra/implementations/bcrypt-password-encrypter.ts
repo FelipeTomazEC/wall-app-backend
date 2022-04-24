@@ -1,4 +1,4 @@
-import { PasswordEncrypter } from "@use-cases/interfaces/password-encrypter.interface";
+import { PasswordEncrypter } from '@use-cases/interfaces/password-encrypter.interface';
 import { compare, genSalt, hash } from 'bcrypt';
 
 export class BcryptPasswordEncrypter implements PasswordEncrypter {

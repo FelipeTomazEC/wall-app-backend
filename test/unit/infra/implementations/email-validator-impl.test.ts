@@ -1,5 +1,8 @@
-import { EmailValidatorImpl } from "@infra/implementations/email-validator-impl";
-import { getNullAsType, getUndefinedAsType } from "@test/test-utils/get-nullable-as-type";
+import { EmailValidatorImpl } from '@infra/implementations/email-validator-impl';
+import {
+  getNullAsType,
+  getUndefinedAsType,
+} from '@test/test-utils/get-nullable-as-type';
 
 describe('Email validator implementation tests', () => {
   const sut = new EmailValidatorImpl();
@@ -34,7 +37,7 @@ describe('Email validator implementation tests', () => {
   it('should validate the Local part length', () => {
     const email =
       '1234567890123456789012345678901234567890123456789012345678901234+x@example.com';
-      expect(sut.isValid(email)).toBeFalsy();
+    expect(sut.isValid(email)).toBeFalsy();
   });
 
   it('should validate if the email does not have unquoted double dot', () => {
@@ -46,4 +49,4 @@ describe('Email validator implementation tests', () => {
     const email = 'user@email.com';
     expect(sut.isValid(email)).toBeTruthy();
   });
-})
+});

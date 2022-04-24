@@ -1,8 +1,12 @@
-import { Message } from "@entities/message";
-import { GetAllRepository, SaveRepository } from "@use-cases/interfaces/repository";
+import { Message } from '@entities/message';
+import {
+  GetAllRepository,
+  SaveRepository,
+} from '@use-cases/interfaces/repository';
 
 export class MessagesInMemoryRepository
-  implements SaveRepository<Message>, GetAllRepository<Message> {
+  implements SaveRepository<Message>, GetAllRepository<Message>
+{
   private static instance: MessagesInMemoryRepository | null = null;
 
   private readonly messages: Message[];

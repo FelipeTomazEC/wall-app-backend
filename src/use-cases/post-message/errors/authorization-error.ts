@@ -1,5 +1,5 @@
 export class AuthorizationError extends Error {
-  constructor(){
+  constructor() {
     super('Invalid token.');
   }
 }

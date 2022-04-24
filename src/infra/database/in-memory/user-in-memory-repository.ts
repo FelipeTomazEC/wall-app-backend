@@ -1,10 +1,18 @@
-import { User } from "@entities/user";
-import { GetByEmailRepository } from "@use-cases/authenticate/dependencies/get-by-email-repository.interface";
-import { GetByIdRepository, SaveRepository } from '@use-cases/interfaces/repository';
-import { EmailExistsRepository } from "@use-cases/register-user/dependencies/email-exists-repository.interface";
+import { User } from '@entities/user';
+import { GetByEmailRepository } from '@use-cases/authenticate/dependencies/get-by-email-repository.interface';
+import {
+  GetByIdRepository,
+  SaveRepository,
+} from '@use-cases/interfaces/repository';
+import { EmailExistsRepository } from '@use-cases/register-user/dependencies/email-exists-repository.interface';
 
-export class UserInMemoryRepository 
-  implements SaveRepository<User>, EmailExistsRepository, GetByEmailRepository, GetByIdRepository<User> {
+export class UserInMemoryRepository
+  implements
+    SaveRepository<User>,
+    EmailExistsRepository,
+    GetByEmailRepository,
+    GetByIdRepository<User>
+{
   private static instance: UserInMemoryRepository | null = null;
 
   private readonly users: User[];
@@ -14,7 +22,7 @@ export class UserInMemoryRepository
   }
 
   static getInstance(): UserInMemoryRepository {
-    if(this.instance === null){
+    if (this.instance === null) {
       this.instance = new UserInMemoryRepository();
     }
 
@@ -26,7 +34,9 @@ export class UserInMemoryRepository
   }
 
   emailExists(email: string): Promise<boolean> {
-    const exists = this.users.some(user => user.email.toUpperCase() === email.toUpperCase());
+    const exists = this.users.some(
+      (user) => user.email.toUpperCase() === email.toUpperCase(),
+    );
     return Promise.resolve(exists);
   }
 

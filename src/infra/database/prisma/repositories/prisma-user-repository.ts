@@ -1,44 +1,49 @@
-import { User } from "@entities/user";
-import { PrismaClient } from "@prisma/client";
-import { GetByEmailRepository } from "@use-cases/authenticate/dependencies/get-by-email-repository.interface";
-import { GetByIdRepository, SaveRepository } from "@use-cases/interfaces/repository";
-import { EmailExistsRepository } from "@use-cases/register-user/dependencies/email-exists-repository.interface";
+import { User } from '@entities/user';
+import { PrismaClient } from '@prisma/client';
+import { GetByEmailRepository } from '@use-cases/authenticate/dependencies/get-by-email-repository.interface';
+import {
+  GetByIdRepository,
+  SaveRepository,
+} from '@use-cases/interfaces/repository';
+import { EmailExistsRepository } from '@use-cases/register-user/dependencies/email-exists-repository.interface';
 
-export class PrismaUserRepository implements SaveRepository<User>,
-  EmailExistsRepository,
-  GetByEmailRepository,
-  GetByIdRepository<User>
+export class PrismaUserRepository
+  implements
+    SaveRepository<User>,
+    EmailExistsRepository,
+    GetByEmailRepository,
+    GetByIdRepository<User>
 {
-  constructor(private readonly client: PrismaClient) { }
+  constructor(private readonly client: PrismaClient) {}
 
   async getById(id: string): Promise<User | null> {
     const userData = await this.client.user.findUnique({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     this.client.$disconnect();
 
-    if(!userData) {
+    if (!userData) {
       return null;
     }
 
     const { email, name, password } = userData;
-    
+
     return new User({ id, email, name, password });
   }
 
   async getByEmail(email: string): Promise<User | null> {
     const userData = await this.client.user.findUnique({
       where: {
-        email
-      }
+        email,
+      },
     });
 
     this.client.$disconnect();
 
-    if(!userData) {
+    if (!userData) {
       return null;
     }
 
@@ -50,8 +55,8 @@ export class PrismaUserRepository implements SaveRepository<User>,
   async emailExists(email: string): Promise<boolean> {
     const exists = await this.client.user.findFirst({
       where: {
-        email
-      }
+        email,
+      },
     });
 
     this.client.$disconnect();
@@ -65,8 +70,8 @@ export class PrismaUserRepository implements SaveRepository<User>,
         email: entity.email,
         id: entity.id,
         name: entity.name,
-        password: entity.password
-      }
+        password: entity.password,
+      },
     });
 
     this.client.$disconnect();

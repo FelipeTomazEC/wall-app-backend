@@ -8,7 +8,6 @@ interface Props<T> {
 }
 
 export class HttpResponse<T> {
-
   readonly headers: HeaderCollection;
 
   constructor(readonly props: Props<T>) {

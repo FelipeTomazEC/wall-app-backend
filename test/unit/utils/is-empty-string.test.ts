@@ -1,5 +1,8 @@
-import { getNullAsType, getUndefinedAsType } from "@test/test-utils/get-nullable-as-type";
-import { isEmptyString } from "@utils/is-empty-string";
+import {
+  getNullAsType,
+  getUndefinedAsType,
+} from '@test/test-utils/get-nullable-as-type';
+import { isEmptyString } from '@utils/is-empty-string';
 
 describe('Is Empty String util function tests', () => {
   it('should return true for null', () => {
@@ -15,10 +18,10 @@ describe('Is Empty String util function tests', () => {
   });
 
   it('should consider a string without characters an empty string.', () => {
-    expect(isEmptyString("")).toBe(true);
+    expect(isEmptyString('')).toBe(true);
   });
 
   it('should consider a string without characters an empty string.', () => {
     expect(isEmptyString('non-empty-string')).toBe(false);
   });
-})
+});

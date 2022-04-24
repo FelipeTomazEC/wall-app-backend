@@ -1,13 +1,12 @@
-import { MessageHandlers } from "@infra/express/routes/message.routes";
-import { postMessageHandler } from '@infra/express/handlers/post-message.handler'
-import { JWTAuthService } from "@infra/implementations/jwt-auth-service";
-import { UUIDv4IdGenerator } from "@infra/implementations/uuid-v4-id-generator";
-import { ConsoleErrorLogger } from "@infra/implementations/console-error-logger";
-import { retrieveMessagesHandler } from "@infra/express/handlers/retrieve-messages.handler";
-import { PrismaUserRepository } from "@infra/database/prisma/repositories/prisma-user-repository";
-import { PrismaClient } from "@prisma/client";
-import { PrismaMessageRepository } from "@infra/database/prisma/repositories/prisma-message-repository";
-
+import { MessageHandlers } from '@infra/express/routes/message.routes';
+import { postMessageHandler } from '@infra/express/handlers/post-message.handler';
+import { JWTAuthService } from '@infra/implementations/jwt-auth-service';
+import { UUIDv4IdGenerator } from '@infra/implementations/uuid-v4-id-generator';
+import { ConsoleErrorLogger } from '@infra/implementations/console-error-logger';
+import { retrieveMessagesHandler } from '@infra/express/handlers/retrieve-messages.handler';
+import { PrismaUserRepository } from '@infra/database/prisma/repositories/prisma-user-repository';
+import { PrismaClient } from '@prisma/client';
+import { PrismaMessageRepository } from '@infra/database/prisma/repositories/prisma-message-repository';
 
 export const makeMessageHandlers = (): MessageHandlers => {
   const client = new PrismaClient();
@@ -22,13 +21,13 @@ export const makeMessageHandlers = (): MessageHandlers => {
     idGenerator,
     logger,
     messagesRepo,
-    usersRepo
+    usersRepo,
   });
 
   const getAll = retrieveMessagesHandler({
     logger,
-    messagesRepo
-  })
+    messagesRepo,
+  });
 
   return { postMessage, getAll };
-}
+};

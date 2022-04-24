@@ -1,10 +1,10 @@
-import { HttpStatusCode } from "@interface-adapters/shared/http-status-code";
-import { getMock } from "@test/test-utils/get-mock";
-import { RegisterUserResponse } from "@use-cases/register-user/dtos/response";
-import { EmailAlreadyRegisteredError } from "@use-cases/register-user/errors/email-already-registered-error";
-import { InvalidEmailError } from "@use-cases/register-user/errors/invalid-email-error";
-import { Response } from "express";
-import { RegisterUserPresenter } from "@infra/express/presenters/register-user.presenter";
+import { HttpStatusCode } from '@interface-adapters/shared/http-status-code';
+import { getMock } from '@test/test-utils/get-mock';
+import { RegisterUserResponse } from '@use-cases/register-user/dtos/response';
+import { EmailAlreadyRegisteredError } from '@use-cases/register-user/errors/email-already-registered-error';
+import { InvalidEmailError } from '@use-cases/register-user/errors/invalid-email-error';
+import { Response } from 'express';
+import { RegisterUserPresenter } from '@infra/express/presenters/register-user.presenter';
 import faker from 'faker';
 
 describe('Register user presenter tests', () => {
@@ -18,8 +18,8 @@ describe('Register user presenter tests', () => {
     expect(expressResponse.status).toBeCalledWith(HttpStatusCode.BAD_REQUEST);
     expect(expressResponse.json).toBeCalledWith({
       error: {
-        message: error.message
-      }
+        message: error.message,
+      },
     });
   });
 
@@ -29,8 +29,8 @@ describe('Register user presenter tests', () => {
     expect(expressResponse.status).toBeCalledWith(HttpStatusCode.CONFLICT);
     expect(expressResponse.json).toBeCalledWith({
       error: {
-        message: error.message
-      }
+        message: error.message,
+      },
     });
   });
 
@@ -40,18 +40,20 @@ describe('Register user presenter tests', () => {
     expect(expressResponse.status).toBeCalledWith(HttpStatusCode.SERVER_ERROR);
     expect(expressResponse.json).toBeCalledWith({
       error: {
-        message: error.message
-      }
+        message: error.message,
+      },
     });
   });
 
   it('should send the response with status code 201', () => {
     const response: RegisterUserResponse = {
-      id: faker.datatype.uuid()
-    }
+      id: faker.datatype.uuid(),
+    };
 
     sut.success(response);
-    expect(expressResponse.status).toBeCalledWith(HttpStatusCode.RESOURCE_CREATED);
+    expect(expressResponse.status).toBeCalledWith(
+      HttpStatusCode.RESOURCE_CREATED,
+    );
     expect(expressResponse.json).toBeCalledWith(response);
   });
-})
+});

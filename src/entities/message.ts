@@ -4,7 +4,7 @@ type Props = {
   userId: string;
   username: string;
   postedAt: Date;
-}
+};
 
 export class Message {
   constructor(private readonly props: Props) {}

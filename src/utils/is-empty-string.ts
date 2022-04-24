@@ -1,3 +1,2 @@
-export const isEmptyString = (value: string) => {
-  return (value ?? "").trim().length === 0;
-}
+export const isEmptyString = (value: string) =>
+  (value ?? '').trim().length === 0;

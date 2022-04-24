@@ -24,6 +24,8 @@ export class Success<F, S> {
   }
 }
 
-export const failure = <F, S>(value: F): Failure<F, S> => new Failure<F, S>(value);
+export const failure = <F, S>(value: F): Failure<F, S> =>
+  new Failure<F, S>(value);
 
-export const success = <F, S>(value: S): Success<F, S> => new Success<F, S>(value);
+export const success = <F, S>(value: S): Success<F, S> =>
+  new Success<F, S>(value);

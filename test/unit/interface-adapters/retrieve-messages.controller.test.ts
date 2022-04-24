@@ -1,10 +1,10 @@
-import { ErrorLogger } from "@interface-adapters/interfaces/logger";
-import { RetrieveMessagesController } from "@interface-adapters/retrieve-messages/retrieve-messages.controller";
-import { InternalServerError } from "@interface-adapters/shared/errors/internal-server-error";
-import { HttpRequest } from "@interface-adapters/shared/http-request";
-import { getMock } from "@test/test-utils/get-mock";
-import { UseCaseInputPort } from "@use-cases/interfaces/use-case-input-port";
-import { UseCaseOutputPort } from "@use-cases/interfaces/use-case-output-port";
+import { ErrorLogger } from '@interface-adapters/interfaces/logger';
+import { RetrieveMessagesController } from '@interface-adapters/retrieve-messages/retrieve-messages.controller';
+import { InternalServerError } from '@interface-adapters/shared/errors/internal-server-error';
+import { HttpRequest } from '@interface-adapters/shared/http-request';
+import { getMock } from '@test/test-utils/get-mock';
+import { UseCaseInputPort } from '@use-cases/interfaces/use-case-input-port';
+import { UseCaseOutputPort } from '@use-cases/interfaces/use-case-output-port';
 
 describe('Retrieve messages http controller tests', () => {
   const presenter = getMock<UseCaseOutputPort<any>>(['failure']);
@@ -24,4 +24,4 @@ describe('Retrieve messages http controller tests', () => {
     expect(presenter.failure).toBeCalledWith(new InternalServerError());
     expect(logger.log).toBeCalledWith(error);
   });
-})
+});
