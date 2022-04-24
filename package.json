@@ -8,7 +8,8 @@
   "scripts": {
     "test": "jest",
     "test:unit": "jest unit",
-    "dev": "nodemon --watch 'src/' --exec 'ts-node -r dotenv/config -r tsconfig-paths/register src/index.ts' -e ts"
+    "dev": "nodemon --watch 'src/' --exec 'ts-node -r dotenv/config -r tsconfig-paths/register src/index.ts' -e ts",
+    "lint": "tsc && eslint \"src/**\" \"test/**\" --fix && prettier -w src test"
   },
   "prisma": {
     "schema": "./src/infra/database/prisma/schema.prisma"
@@ -22,9 +23,18 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/nodemailer": "^6.4.4",
     "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "@typescript-eslint/parser": "^5.20.0",
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.1.5",
     "faker": "5.5.3",
     "jest": "^27.5.1",
     "nodemon": "^2.0.15",
+    "prettier": "^2.6.2",
     "prisma": "^3.12.0",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
