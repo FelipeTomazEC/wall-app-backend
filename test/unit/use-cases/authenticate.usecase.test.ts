@@ -47,8 +47,9 @@ describe('Authenticate use case tests.', () => {
 
   it('should generate a token and send it to the presenter.', async () => {
     const token = faker.random.word();
-    jest.spyOn(authService, 'generateTokenFor').mockResolvedValue(token);
+    const expiredInSeconds = 5 * 24 * 3600;
+    jest.spyOn(authService, 'generateTokenFor').mockResolvedValue({ token, expiredInSeconds});
     await sut.execute({ email: user.email, password: user.password })
-    expect(presenter.success).toBeCalledWith({ token });
+    expect(presenter.success).toBeCalledWith({ token, expiredInSeconds });
   });
 })

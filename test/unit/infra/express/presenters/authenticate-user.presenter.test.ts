@@ -47,7 +47,8 @@ describe('Authenticate user presenter tests', () => {
 
   it('should send the response with status code 201', () => {
     const response: AuthenticateResponse = {
-      token: faker.datatype.uuid()
+      token: faker.datatype.uuid(),
+      expiredInSeconds: faker.datatype.number()
     }
     sut.success(response);
     expect(expressResponse.status).toBeCalledWith(HttpStatusCode.OK);

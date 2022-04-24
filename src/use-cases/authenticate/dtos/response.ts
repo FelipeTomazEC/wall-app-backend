@@ -1,5 +1,4 @@
-import { Token } from "../dependencies/authentication-service.interface"
-
 export type AuthenticateResponse = {
-  token: Token;
+  token: string;
+  expiredInSeconds: number;
 }

@@ -1,5 +1,5 @@
 import { User } from "@entities/user";
-import { AuthenticationService } from "@use-cases/authenticate/dependencies/authentication-service.interface";
+import { AuthenticationService, Credentials } from "@use-cases/authenticate/dependencies/authentication-service.interface";
 import { AuthorizationService } from "@use-cases/post-message/dependencies/authorization-service.interface";
 import { AuthorizationError } from "@use-cases/post-message/errors/authorization-error";
 import { Either, failure, success } from "@utils/either";
@@ -10,19 +10,21 @@ type TokenPayload = {
 }
 
 export class JWTAuthService implements AuthenticationService, AuthorizationService {
-  generateTokenFor(user: User): Promise<string> {
+  generateTokenFor(user: User): Promise<Credentials> {
     const secret = process.env.JWT_SECRET!;
     const { JWT_TIME_TO_LIVE_IN_HOURS = '24' } = process.env;
     const options: SignOptions = { expiresIn: `${JWT_TIME_TO_LIVE_IN_HOURS}h` };
     const payload = { ownerId: user.id };
     
-    return new Promise((resolve, reject) => {
+    return new Promise<Credentials>((resolve, reject) => {
       sign(payload, secret, options, (error, token) => {
-        if(!!error) {
+        if(error || !token) {
           return reject(error);
         }
 
-        return resolve(token!);
+        const expiredInSeconds = parseInt(JWT_TIME_TO_LIVE_IN_HOURS) * 3600;
+
+        return resolve({ expiredInSeconds, token });
       });
     });
   }

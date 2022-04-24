@@ -19,9 +19,10 @@ describe('JWT auth service implementation tests', () => {
   });
 
   test('It should get an user and generate a json web token.', async () => {
-    const token = await sut.generateTokenFor(user);
-
-    expect(token).toBeTruthy();
+    const credentials = await sut.generateTokenFor(user);
+    const expectedExpirationTime = 5 * 3600;
+    expect(credentials.token).toBeTruthy();
+    expect(credentials.expiredInSeconds).toBe(expectedExpirationTime);
   });
 
   test('It should return an error to invalid tokens.', async () => {
@@ -32,8 +33,8 @@ describe('JWT auth service implementation tests', () => {
   });
 
   test('It should return the id of the owner to valid tokens.', async () => {
-    const token = await sut.generateTokenFor(user);
-    const ownerIdOrError = await sut.authorize(token);
+    const credentials = await sut.generateTokenFor(user);
+    const ownerIdOrError = await sut.authorize(credentials.token);
 
     expect(ownerIdOrError.isSuccess()).toBe(true);
     expect(ownerIdOrError.value).toStrictEqual(user.id);
@@ -42,7 +43,7 @@ describe('JWT auth service implementation tests', () => {
   test('It should return an error to expired tokens.', async () => {
     process.env.JWT_TIME_TO_LIVE_IN_HOURS = '0';
     const credentials = await sut.generateTokenFor(user);
-    const ownerIdOrError = await sut.authorize(credentials);
+    const ownerIdOrError = await sut.authorize(credentials.token);
 
     expect(ownerIdOrError.isFailure()).toBe(true);
     expect(ownerIdOrError.value).toStrictEqual(new AuthorizationError());

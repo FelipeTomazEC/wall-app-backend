@@ -30,8 +30,8 @@ export class AuthenticateUseCase implements UseCaseInputPort<Request> {
       return presenter.failure(new AuthenticationError());
     }
 
-    const token = await authService.generateTokenFor(user);
+    const credentials = await authService.generateTokenFor(user);
 
-    return presenter.success({ token });
+    return presenter.success(credentials);
   }
 }
