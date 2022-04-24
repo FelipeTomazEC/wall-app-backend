@@ -3,7 +3,7 @@
     "target": "ES2015",
     "module": "commonjs",
     "allowJs": true,
-    "outDir": "dist",
+    "outDir": "build",
     "rootDir": "./",
     "removeComments": true,
     "noEmit": true,

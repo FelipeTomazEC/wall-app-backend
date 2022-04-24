@@ -9,7 +9,9 @@
     "test": "jest",
     "test:unit": "jest unit",
     "dev": "nodemon --watch 'src/' --exec 'ts-node -r dotenv/config -r tsconfig-paths/register src/index.ts' -e ts",
-    "lint": "tsc && eslint \"src/**\" \"test/**\" --fix && prettier -w src test"
+    "lint": "tsc && eslint \"src/**\" \"test/**\" --fix && prettier -w src test",
+    "build": "babel ./src -d build --extensions \".ts\"",
+    "start": "NODE_ENV=production node -r dotenv/config build/index.js"
   },
   "prisma": {
     "schema": "./src/infra/database/prisma/schema.prisma"
@@ -27,6 +29,11 @@
     }
   },
   "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.9",
+    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
@@ -37,6 +44,7 @@
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
+    "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^8.14.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
