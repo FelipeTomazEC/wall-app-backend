@@ -1,5 +1,5 @@
 import { Message } from "@entities/message";
-import { MessagesInMemoryRepository } from "@infra/database/messages-in-memory-repository";
+import { MessagesInMemoryRepository } from "@infra/database/in-memory/messages-in-memory-repository";
 import faker from "faker";
 
 describe('Messages in memory tests', () => {

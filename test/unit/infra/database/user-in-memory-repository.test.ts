@@ -1,5 +1,5 @@
 import { User } from "@entities/user";
-import { UserInMemoryRepository } from "@infra/database/user-in-memory-repository";
+import { UserInMemoryRepository } from "@infra/database/in-memory/user-in-memory-repository";
 import faker from 'faker';
 
 describe('User in memory repository tests', () => {
