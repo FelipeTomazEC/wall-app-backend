@@ -36,7 +36,7 @@ To run this project you must have:
 
 6. Open the `.env` in an editor of your preference and edit the variables values.
 
-7. Run the db migrations using Prisma. This command will recreate the database schema for your: `$ npx prisma migrate dev`
+7. Run the db migrations using Prisma. This command will recreate the database schema for you: `$ npx prisma migrate dev`
 
 8. Build the project: `$ yarn build`
 
