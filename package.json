@@ -11,7 +11,8 @@
     "dev": "nodemon --watch 'src/' --exec 'ts-node -r dotenv/config -r tsconfig-paths/register src/index.ts' -e ts",
     "lint": "tsc && eslint \"src/**\" \"test/**\" --fix && prettier -w src test",
     "build": "babel ./src -d build --extensions \".ts\"",
-    "start": "NODE_ENV=production node -r dotenv/config build/index.js"
+    "start": "NODE_ENV=production node -r dotenv/config build/index.js",
+    "start:migrate": "prisma migrate deploy && yarn start"
   },
   "prisma": {
     "schema": "./src/infra/database/prisma/schema.prisma"

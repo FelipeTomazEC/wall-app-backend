@@ -13,5 +13,23 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
 
+  application:
+    container_name: wall-app-backend-container
+    build: .
+    image: the-wall-backend
+    depends_on:
+      - database
+    ports:
+      - ${PORT:-3000}:3000
+    environment:
+      DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@database:5432/${DATABASE_NAME}
+      JWT_TIME_TO_LIVE_IN_HOURS: ${JWT_TIME_TO_LIVE_IN_HOURS:-4}
+      JWT_SECRET: ${JWT_SECRET}
+      FRONT_END_ORIGIN: ${FRONT_END_ORIGIN}
+      APPLICATION_EMAIL_USER: ${APPLICATION_EMAIL_USER}
+      APPLICATION_EMAIL_PASSWORD: ${APPLICATION_EMAIL_PASSWORD}
+      SMTP_HOST: ${SMTP_HOST}
+      SMPT_PORT: ${SMPT_PORT}
 volumes:
   db:
+
