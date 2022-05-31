@@ -4,8 +4,6 @@ services:
   database:
     container_name: wall-app-database-container
     image: postgres
-    ports:
-      - ${DATABASE_PORT:-5432}:5432
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
       POSTGRES_USER: ${DATABASE_USER}
@@ -16,7 +14,7 @@ services:
   application:
     container_name: wall-app-backend-container
     build: .
-    image: the-wall-backend
+    image: felipetomazec/the-wall-backend
     depends_on:
       - database
     ports:
